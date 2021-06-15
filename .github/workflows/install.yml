@@ -1,9 +1,6 @@
 name: Install and Load
 
-on:
-  push:
-    paths:
-      - 'DynTrack/**'
+on: [push]
 
 jobs:
   install_and_load:
@@ -28,4 +25,4 @@ jobs:
         pip install .
     - name: Load package
       run: |
-        python -c "import sys; sys.path = sys.path[1:];import DynTrack"
+        python -c "import sys; sys.path = sys.path[1:];import dyntrack"
