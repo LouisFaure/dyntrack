@@ -19,16 +19,16 @@ class CustomBuild(build):
         subprocess.call(['make', '-C', 'vfkm'])      
 
 setup(
-    name='DynTrack',
+    name='dyntrack',
     version_format="{tag}",
     setup_requires=["setuptools-git-version"],
     description="Python package for the study of particle dynamics from 2D tracks",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    package_dir={"DynTrack": "DynTrack"},
+    package_dir={"dyntrack": "dyntrack"},
     url="https://github.com/LouisFaure/DynTrack",
     packages=find_packages(),
-    package_data={'DynTrack': ['vfkm']},
+    package_data={'dyntrack': ['vfkm']},
     include_package_data=True,
     install_requires=requirements,
     cmdclass={
