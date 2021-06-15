@@ -6,8 +6,6 @@ from sys import stdout
 from datetime import datetime
 from time import time as get_time
 from platform import python_version
-from anndata.logging import get_memory_usage
-from anndata.logging import print_memory_usage
 
 
 _VERBOSITY_LEVELS_FROM_STRINGS = {"error": 0, "warn": 1, "info": 2, "hint": 3}
@@ -87,17 +85,11 @@ def msg(
         if not time and not memory and len(msg) > 0:
             _write_log(*msg, end=end)
         if reset:
-            try:
-                settings._previous_memory_usage, _ = get_memory_usage()
-            except:
-                pass
             settings._previous_time = get_time()
         if time:
             elapsed = get_passed_time()
             msg = msg + (f"({_sec_to_str(elapsed)})",)
             _write_log(*msg, end=end)
-        if memory:
-            _write_log(get_memory_usage(), end=end)
 
 
 m = msg
