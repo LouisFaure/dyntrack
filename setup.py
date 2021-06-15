@@ -2,7 +2,14 @@ import os
 import pathlib
 from setuptools import setup, find_packages
 import subprocess
+from os import path
+this_directory = path.abspath(path.dirname(__file__))
+with open("requirements.txt") as f:
+    requirements = f.read().splitlines()
 
+with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
+    long_description = f.read()
+    
 from distutils.command.build import build
 
 class CustomBuild(build):
@@ -18,7 +25,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     package_dir={"DynTrack": "DynTrack"},
-    url="https://github.com/LouisFaure/DynTrack"
+    url="https://github.com/LouisFaure/DynTrack",
     packages=find_packages(),
     package_data={'DynTrack': ['vfkm']},
     include_package_data=True,
