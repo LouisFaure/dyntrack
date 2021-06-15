@@ -4,6 +4,7 @@ from setuptools import setup, find_packages
 import subprocess
 from os import path
 this_directory = path.abspath(path.dirname(__file__))
+
 with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
@@ -29,6 +30,7 @@ setup(
     packages=find_packages(),
     package_data={'DynTrack': ['vfkm']},
     include_package_data=True,
+    install_requires=requirements,
     cmdclass={
         'build': CustomBuild,
     }

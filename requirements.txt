@@ -1,0 +1,6 @@
+tqdm==4.60.0
+numpy==1.19.5
+numba==0.52.0
+pandas==1.2.4
+matplotlib==3.4.2
+importlib_metadata==4.0.1

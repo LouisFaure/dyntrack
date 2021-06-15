@@ -4,20 +4,9 @@ import os
 os.environ['NUMEXPR_MAX_THREADS'] = str(1)
 import subprocess
 import tempfile
-from multiprocessing import Pool
 
-import matplotlib
-matplotlib.use('Agg')
-
-import matplotlib.pyplot as plt
-from matplotlib import rcParams
-rcParams.update({'figure.autolayout': True})
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-import seaborn as sns
 import pandas as pd
 import numpy as np
-from itertools import compress
-from scipy import stats
 
 from .. import settings
 from .. import logging as logg
