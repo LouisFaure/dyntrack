@@ -1,0 +1,28 @@
+import os
+import pathlib
+from setuptools import setup, find_packages
+import subprocess
+
+from distutils.command.build import build
+
+class CustomBuild(build):
+    def run(self):
+        build.run(self)
+        subprocess.call(['make', '-C', 'vfkm'])      
+
+setup(
+    name='DynTrack',
+    version_format="{tag}",
+    setup_requires=["setuptools-git-version"],
+    description="Python package for the study of particle dynamics from 2D tracks",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    package_dir={"DynTrack": "DynTrack"},
+    url="https://github.com/LouisFaure/DynTrack"
+    packages=find_packages(),
+    package_data={'DynTrack': ['vfkm']},
+    include_package_data=True,
+    cmdclass={
+        'build': CustomBuild,
+    }
+)
