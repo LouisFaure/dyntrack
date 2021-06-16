@@ -1,6 +1,6 @@
 [![PyPI](https://img.shields.io/pypi/v/dyntrack.svg)](https://pypi.python.org/pypi/dyntrack/)
 [![Install & Load](https://github.com/LouisFaure/dyntrack/actions/workflows/install.yml/badge.svg)](https://github.com/LouisFaure/dyntrack/actions/workflows/install.yml)
-[![GitHub license](https://img.shields.io/github/license/LouisFaure/dyntrack)](https://github.com/LouisFaure/dyntrack/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/LouisFaure/dyntrack/blob/master/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # DynTrack
