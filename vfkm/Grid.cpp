@@ -32,7 +32,7 @@ TriangularFace Grid::getFaceWherePointLies(const Vector2D &v) const
         exit(1);
     }
     TriangularFace face;
-    
+
     int square_x = int(v.x), square_y = int(v.y);
     float fx = v.x - square_x, fy = v.y - square_y;
     if (fx > fy) {
@@ -105,7 +105,7 @@ void Grid::locate_point(PointLocation &l, const Vector2D& point) const
     Vector2D vertex3 = getGridVertex(l.face.indexV3);
 
     float det =
-        (vertex2.X() - vertex1.X()) * (vertex3.Y() - vertex1.Y()) - 
+        (vertex2.X() - vertex1.X()) * (vertex3.Y() - vertex1.Y()) -
         (vertex2.Y() - vertex1.Y()) * (vertex3.X() - vertex1.X());
 
     if(det == 0){
@@ -508,8 +508,8 @@ void Grid::multiplyByLaplacian(Vector &firstComponent, Vector &secondComponent) 
     }
 
     //vectorField.assign(newVectorField.begin(), newVectorField.end());
-    firstComponent.setValues(newFirstComponent);    
-    secondComponent.setValues(newSecondComponent);    
+    firstComponent.setValues(newFirstComponent);
+    secondComponent.setValues(newSecondComponent);
 }
 
 void Grid::multiplyByLaplacian2(Vector &firstComponent, Vector &rowLength2) {
@@ -634,7 +634,7 @@ void Grid::multiplyByLaplacian2(Vector &firstComponent, Vector &rowLength2) {
     }
 
     //vectorField.assign(newVectorField.begin(), newVectorField.end());
-    firstComponent.setValues(newFirstComponent);    
+    firstComponent.setValues(newFirstComponent);
 }
 
 //#define DEBUG
@@ -646,7 +646,7 @@ vector<Grid::Inter> Grid::clipAgainstHorizontalLines
     if (g1.grid_point.Y() == g2.grid_point.Y()) {
         return result;
     }
-    float inv_slope = (g2.grid_point.X() - g1.grid_point.X()) / 
+    float inv_slope = (g2.grid_point.X() - g1.grid_point.X()) /
         (g2.grid_point.Y() - g1.grid_point.Y());
 
     if (inv_slope >= 0) {
@@ -747,7 +747,7 @@ void Grid::clipLine(PolygonalPath &path1) const
         vector<Grid::Inter> horiz = clipAgainstHorizontalLines(e1, e2);
         horiz.push_back(e2);
         for (size_t i=0; i<horiz.size(); ++i) {
-            vector<Grid::Inter> vert = 
+            vector<Grid::Inter> vert =
                 clipAgainstVerticalLines(inters.back(), horiz[i]);
             // reported barycentric coords are with respect to clipped lines;
             // make a good u here.
@@ -757,7 +757,7 @@ void Grid::clipLine(PolygonalPath &path1) const
             copy(vert.begin(), vert.end(), back_inserter(inters));
             inters.push_back(horiz[i]);
         }
-        
+
         // resolve diagonal intersections which remain
         for (size_t i=0; i<inters.size()-1; ++i) {
             int x_square = min(int(inters[i  ].grid_point.x),
@@ -777,7 +777,7 @@ void Grid::clipLine(PolygonalPath &path1) const
             // x_i+1 - y_i+1 then there's an intersection with the diagonal.
 
             if (s1 != s2) {
-                // If that's the case, solve the following linear system over point-in-square 
+                // If that's the case, solve the following linear system over point-in-square
                 // coordinates:
 
                 // x = y (diagonal line)
@@ -787,7 +787,7 @@ void Grid::clipLine(PolygonalPath &path1) const
                 // (y-y2)dx = (x-x2)dy
 
                 // The solution is x = y = (v2 du - u2 dv) / (du - dv)
-                
+
                 // if du = dv we wouldn't have arrived here, because their signs would
                 // have been different
                 float x = (v2 * du - u2 * dv) / (du - dv);
@@ -825,7 +825,7 @@ void update_triplet_matrix
  vector<float> &values)
 {
     int r1 = index, r2 = index+1;
-    
+
     float
         u1 = 1.0-cj.lambda,        v1 = cj.lambda,
         u2 = 1.0-cj_plus_1.lambda, v2 = cj_plus_1.lambda;

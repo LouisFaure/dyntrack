@@ -86,7 +86,7 @@ Vector2D Vector2D::operator* (float lambda){
 
 
 void Vector2D::rotate(float angle, RotationOrientation orientation){
-    
+
     float coef = (orientation == Vector2D::COUNTER_CLOCK_WISE)?-1.0:1.0;
 
     float c = cos(angle);
@@ -105,7 +105,7 @@ bool Vector2D::compareLowerLeft(const Vector2D& v1, const Vector2D& v2){
 
 Vector2D::RelativePosition Vector2D::isToTheLeft(const Vector2D& v1, const Vector2D& v2){
     float zCoord =  (v2.X() * v1.Y() - v2.Y() * v1.X());
-    
+
     if (zCoord == 0.0)
 	return Vector2D::ALIGNED;
     else if(zCoord > 0.0)

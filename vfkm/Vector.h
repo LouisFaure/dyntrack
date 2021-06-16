@@ -48,7 +48,7 @@ public:
         return values[index];
     }
 
-    inline Vector& operator=(const Vector& v) { 
+    inline Vector& operator=(const Vector& v) {
         if (v.getDimension() != getDimension()) {
             alloc(v.getDimension());
         }

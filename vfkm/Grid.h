@@ -54,7 +54,7 @@ struct Segment {
     // remember that v is necessarily of the format Lambda . v
     inline void add_cTx(Vector &resulting_field, const Vector &v, float w=1.0f) const {
         // LT.L = [[1/3, 1/6], [1/6, 1/3]]
-        // B LT.L = 
+        // B LT.L =
         float v1 = v[index], v2 = v[index+1];
         resulting_field[endpoint[0].face.indexV1] += w * v1 * endpoint[0].barycentric_coords[0] / 3.0;
         resulting_field[endpoint[0].face.indexV2] += w * v1 * endpoint[0].barycentric_coords[1] / 3.0;
@@ -131,7 +131,7 @@ public:
 
     Vector2D toGrid(const Vector2D &world_point) const {
         return Vector2D((world_point.X() - m_x) / m_w * (m_resolutionX - 1.0),
-                        (world_point.Y() - m_y) / m_h * (m_resolutionY - 1.0));                        
+                        (world_point.Y() - m_y) / m_h * (m_resolutionY - 1.0));
     }
 
     Vector2D toWorld(const Vector2D &grid_point) const {
@@ -142,7 +142,7 @@ public:
     inline Vector2D getGridVertex(int index) const {
       return Vector2D(index % m_resolutionX, index / m_resolutionX);
     }
-    inline Vector2D getVertex(int index) const {        
+    inline Vector2D getVertex(int index) const {
       return Vector2D(m_x + m_delta_x * (index % m_resolutionX), m_y + m_delta_y * (index / m_resolutionX));
     }
     inline Vector2D getVertex(int index,int resolutionX, int resolutionY) const {
@@ -179,7 +179,7 @@ public:
     //should be called after calling clip planes
     //assumes that every segment of the line
     //lies in a face
-    
+
     struct Inter {
         Vector2D grid_point;
         float u; // barycentric coordinate along the segment

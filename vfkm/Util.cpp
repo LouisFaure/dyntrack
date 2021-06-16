@@ -136,7 +136,7 @@ void Util::loadCurves(string filename, vector<PolygonalPath>& curves,
     for(int i = 0 ; i < numberOfCurvesRead ; ++i){
         cout << "Curve " << i << " = " << curves.at(i).toString() << endl;
     }
-#endif   
+#endif
 }
 
 void Util::loadCurves(std::string filename, std::vector<PolygonalPath>& curves){

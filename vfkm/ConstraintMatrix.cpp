@@ -159,7 +159,7 @@ void ConstraintMatrix:: multiplyTranspose(const std::vector<Intersection>& const
 
 }
 
-void ConstraintMatrix::multiplyTranspose(vector<Intersection>& constraints, const Vector &v, Vector &result){    
+void ConstraintMatrix::multiplyTranspose(vector<Intersection>& constraints, const Vector &v, Vector &result){
     int numberOfConstraints = constraints.size();
 
     assert(numberOfConstraints == v.getDimension());

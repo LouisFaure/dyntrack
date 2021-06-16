@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void initExperiment(string filename, Cluster*& rootCluster, Grid*& g, 
+void initExperiment(string filename, Cluster*& rootCluster, Grid*& g,
 		    vector<PolygonalPath>& curves, int gridResolution){
     //load curves
     float xmin, xmax, ymin, ymax, tmin, tmax;
@@ -233,7 +233,7 @@ int main(int argc, char *argv[]){
 	if(componentX != NULL){
 	    delete componentX;
 	}
-	    
+
 	Vector* componentY  = vfs.second;
 	if(componentY != NULL){
 	    delete componentY;

@@ -23,7 +23,7 @@ public:
 
     static void multiplyTranspose(std::vector<Intersection>& constraints, std::map<int,std::vector<std::pair<int,Intersection> > >& mapVertexConstraint,
                                   const Vector &firstComponent, const Vector &secondComponent,
-                                  Vector &firstResult, Vector &secondResult, float weight);   
+                                  Vector &firstResult, Vector &secondResult, float weight);
 
 //    static void multiplyTranspose(std::vector<Intersection>& constraints, const Vector &v,
 //                                  const Vector &w, Vector &resultV, Vector &resultW,

@@ -106,7 +106,7 @@ public:
     static std::string toString(RelativePosition);
     static std::string toStringRelativePosition(RelativePosition rp);
 
-    static bool compareLowerLeft(const Vector2D& v1, const Vector2D& v2);    
+    static bool compareLowerLeft(const Vector2D& v1, const Vector2D& v2);
     static RelativePosition isToTheLeft(const Vector2D& v1, const Vector2D& v2);
     static RelativePosition isALeftTurn(const Vector2D& v1, const Vector2D& v2, const Vector2D& v3);
     static bool intersect(const Vector2D &p1, const Vector2D &p2,

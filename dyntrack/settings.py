@@ -2,7 +2,7 @@ from glob import glob
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-vfkm=glob(os.path.join(basedir,'vfkm'))[0]
+vfkm = glob(os.path.join(basedir, "vfkm"))[0]
 
 """Settings
 """

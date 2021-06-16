@@ -154,7 +154,7 @@ void cg_solve(ProblemSettings &prob, const Vector &b, Vector &x)
     r -= t;
     if (normb == 0.0) {
         normb = 1.0;
-    }    
+    }
     resid = r.length() / normb;
 
     if (resid <= tol) {
@@ -216,8 +216,8 @@ void optimizeVectorFieldWithWeights(Grid &grid, Vector &initialGuessX, Vector &i
     ///compute independent terms
     int numberOfVertices = grid.getResolutionX() * grid.getResolutionY();
 
-    Vector 
-        indepx(numberOfVertices), 
+    Vector
+        indepx(numberOfVertices),
         indepy(numberOfVertices);
     indepx.setValues(0.0f);
     indepy.setValues(0.0f);
@@ -298,7 +298,7 @@ pair< vector<int>, vector< vector<int> > > compute_first_assignment
 
 void set_constraints(vector<CurveDescription> &curve_descriptions,
                      float &totalCurveLength,
-                     vector<PolygonalPath> &curves,                     
+                     vector<PolygonalPath> &curves,
                      const Grid &grid)
 {
     totalCurveLength = 0.0f;
@@ -307,7 +307,7 @@ void set_constraints(vector<CurveDescription> &curve_descriptions,
 
     for(int i = 0 ; i < numberOfCurves ; ++i) {
 
-        bool bad_break = false;        
+        bool bad_break = false;
 
         PolygonalPath &p = curves.at(i);
 
@@ -548,4 +548,3 @@ void Optimizer::optimizeImplicitFastWithWeights
         finalVectorFields[i].second->setValues(vectorFields[i].second);
     }
 }
-
