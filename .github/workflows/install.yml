@@ -21,7 +21,6 @@ jobs:
     - name: Install package
       run: |
         pip install wheel
-        pip install git+https://github.com/LouisFaure/SimplePPT.git
         pip install .
     - name: Load package
       run: |
