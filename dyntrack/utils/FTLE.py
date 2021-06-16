@@ -1,7 +1,3 @@
-# https://github.com/richardagalvez/Vortices-Python/blob/master/Vortex-FTLE.ipynb
-# https://shaddenlab.berkeley.edu/uploads/LCS-tutorial/FTLE-interp.html
-
-
 import numpy as np
 import math
 from matplotlib import pyplot
