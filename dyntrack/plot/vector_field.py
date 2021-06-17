@@ -39,7 +39,6 @@ def vector_field(
             cmap=cmap,
         )
         ax.axis("off")
-        # ax.scatter(mouthpos["Position X"],mouthpos["Position Y"],zorder=3,c="white")
 
         divider = make_axes_locatable(ax)
         cax = divider.append_axes("right", size="2%", pad=1)

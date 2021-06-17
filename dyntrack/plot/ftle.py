@@ -34,7 +34,6 @@ def FTLE(
         arrowstyle="->",
         color=color,
     )
-    # ax.scatter(mouthpos["Position X"],mouthpos["Position Y"],zorder=3,c="white")
     ax.yaxis.set_major_locator(plt.NullLocator())
     ax.xaxis.set_major_formatter(plt.NullFormatter())
     ax.axis("off")
