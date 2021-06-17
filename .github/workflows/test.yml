@@ -3,7 +3,7 @@ name: Build and Test
 on:
   push:
     paths:
-      - 'scFates/**'
+      - 'dyntrack/**'
 
 jobs:
   build_and_test:
