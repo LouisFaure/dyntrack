@@ -3,12 +3,16 @@ import numpy as np
 import simpleppt
 
 
-def fit_ppt(DT, times=None, **kwargs):
+def fit_ppt(DT, times=None, figsize=(7, 4), ax=None, show=True, **kwargs):
+
+    if ax is None:
+        fig = plt.figure(figsize=figsize)
+        ax = fig.add_subplot(111)
+        fig.set_tight_layout(True)
 
     tdata = DT.track_data
 
     times = tdata.Time.unique() if times is None else times
-    fig, ax = plt.subplots()
     ax.set_aspect("equal")
     i = 0
     for t in times:
@@ -25,4 +29,8 @@ def fit_ppt(DT, times=None, **kwargs):
         i = i + 1
     ax.imshow(DT.img, origin="lower")
     ax.axis("off")
-    plt.tight_layout()
+
+    if show == False:
+        return ax
+    else:
+        plt.show()
