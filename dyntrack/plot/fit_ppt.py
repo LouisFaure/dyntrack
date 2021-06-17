@@ -24,6 +24,5 @@ def fit_ppt(DT, times=None, **kwargs):
         )
         i = i + 1
     ax.imshow(DT.img, origin="lower")
-    # ax.scatter(mouthpos["Position X"],mouthpos["Position Y"],zorder=2000,s=100,c="red")
     ax.axis("off")
     plt.tight_layout()
