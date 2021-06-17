@@ -31,7 +31,6 @@ setup(
     package_dir={"dyntrack": "dyntrack"},
     url="https://github.com/LouisFaure/DynTrack",
     packages=find_packages(),
-    package_data={"dyntrack": ["vfkm"]},
     include_package_data=True,
     install_requires=requirements,
     cmdclass={

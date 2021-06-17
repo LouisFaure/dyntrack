@@ -1,5 +1,6 @@
 import numpy as np
 from .. import logging as logg
+from .. import settings
 from ..utils.FTLE import *
 
 
@@ -103,10 +104,19 @@ def get_ftle(traj_x, traj_y, X, Y, integration_time):
     return ftle
 
 
-def FTLE(X, Y, u, v, integration_time, dt):
-    logg.info("Generating FTLE particle trajectories")
-    traj_x, traj_y = get_traj(X, Y, u, v, integration_time, dt)
-    logg.info("Obtaining FTLE scalar field")
-    ftle = get_ftle(traj_x, traj_y, X, Y, integration_time)
+def FTLE(DT, integration_time, delta_t, copy=False):
 
-    return ftle
+    DT = DT.copy() if copy else DT
+    logg.info("Obtaining FTLE scalar field", reset=True)
+    logg.info(f"    integration time: {integration_time}, delta_t: {delta_t}")
+    logg.info("    Generating FTLE particle trajectories", end="... ")
+    traj_x, traj_y = get_traj(DT.X, DT.Y, DT.u, DT.v, integration_time, delta_t)
+    logg.info("done")
+    ftle = get_ftle(traj_x, traj_y, DT.X, DT.Y, integration_time)
+
+    DT.ftle = ftle
+
+    logg.info("    finished", time=True, end=" " if settings.verbosity > 2 else "\n")
+    logg.hint("added \n" "    .ftle, ftle scalar values for the vector field.")
+
+    return DT if copy else None

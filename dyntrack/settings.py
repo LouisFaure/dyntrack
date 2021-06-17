@@ -1,8 +1,7 @@
-from glob import glob
+from . import __path__
 import os
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-vfkm = glob(os.path.join(basedir, "vfkm"))[0]
+vfkm = os.path.join(__path__[0], "vfkm")
 
 """Settings
 """

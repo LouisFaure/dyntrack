@@ -2,18 +2,21 @@ from glob import glob
 import sys
 import os
 
-os.environ["NUMEXPR_MAX_THREADS"] = str(1)
 import subprocess
 import tempfile
 
 import pandas as pd
 import numpy as np
 
-from .. import settings
-from .. import logging as logg
+from dyntrack import settings
+from dyntrack import logging as logg
 
 
-def vector_field(tdata, gridRes: int = 30, smooth: float = 0.5):
+def vector_field(DT, gridRes: int = 30, smooth: float = 0.5, copy=False):
+
+    DT = DT.copy() if copy else DT
+
+    tdata = DT.track_data
 
     allparents = np.unique(tdata["Parent"])
     allparents = allparents[~np.isnan(allparents)]
@@ -32,7 +35,10 @@ def vector_field(tdata, gridRes: int = 30, smooth: float = 0.5):
 
     vfkm = settings.vfkm
 
-    logg.info("Generating grid vector field")
+    logg.info(
+        f"Generating grid vector field with a {gridRes}x{gridRes} grid and a smoothing constrain of {smooth}",
+        reset=True,
+    )
     with tempfile.TemporaryDirectory() as tmp:
         # logg.hint("    Data temporary saved in "+tmp)
         init = [
@@ -85,4 +91,15 @@ def vector_field(tdata, gridRes: int = 30, smooth: float = 0.5):
     v = vect[1].values.reshape(gs, gs)
     X, Y = np.meshgrid(a, b)
 
-    return X, Y, u, v
+    DT.X, DT.Y, DT.u, DT.v = X, Y, u, v
+
+    logg.info("    finished", time=True, end=" " if settings.verbosity > 2 else "\n")
+    logg.hint(
+        "added \n"
+        "    .X, x coordinates of the grid\n"
+        "    .Y, y coordinates of the grid\n"
+        "    .u, x component of the vectors\n"
+        "    .v, y component of the vectors"
+    )
+
+    return DT if copy else None

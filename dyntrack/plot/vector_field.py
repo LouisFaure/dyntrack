@@ -3,15 +3,9 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 import numpy as np
 import warnings
 
-from .utils import set_colorbar
-
 
 def vector_field(
-    X,
-    Y,
-    u,
-    v,
-    img,
+    DT,
     density=2,
     linewidth=1,
     arrowsize=1,
@@ -30,13 +24,13 @@ def vector_field(
             fig.set_tight_layout(True)
 
         ax.set_aspect("equal")
-        ax.imshow(img, origin="lower")
-        speed = np.sqrt(u ** 2 + v ** 2)
+        ax.imshow(DT.img, origin="lower")
+        speed = np.sqrt(DT.u ** 2 + DT.v ** 2)
         h = ax.streamplot(
-            X,
-            Y,
-            u,
-            v,
+            DT.X,
+            DT.Y,
+            DT.u,
+            DT.v,
             color=speed,
             density=density,
             linewidth=linewidth,

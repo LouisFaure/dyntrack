@@ -4,12 +4,7 @@ import numpy as np
 
 
 def FTLE(
-    X,
-    Y,
-    u,
-    v,
-    ftle,
-    img,
+    DT,
     cmap="jet",
     density=2,
     linewidth=0.75,
@@ -27,12 +22,12 @@ def FTLE(
         fig.set_tight_layout(True)
 
     ax.set_aspect("equal")
-    contf = ax.contourf(X, Y, ftle, extend="both", cmap=cmap)
+    contf = ax.contourf(DT.X, DT.Y, DT.ftle, extend="both", cmap=cmap)
     ax.streamplot(
-        X,
-        Y,
-        u,
-        v,
+        DT.X,
+        DT.Y,
+        DT.u,
+        DT.v,
         density=2,
         linewidth=0.75,
         arrowsize=0.75,

@@ -3,7 +3,10 @@ import numpy as np
 import simpleppt
 
 
-def fit_ppt(img, ppts, tdata, times=None, **kwargs):
+def fit_ppt(DT, times=None, **kwargs):
+
+    tdata = DT.track_data
+
     times = tdata.Time.unique() if times is None else times
     fig, ax = plt.subplots()
     ax.set_aspect("equal")
@@ -11,7 +14,7 @@ def fit_ppt(img, ppts, tdata, times=None, **kwargs):
     for t in times:
         toproject = tdata.loc[tdata.Time == t, ["Position X", "Position Y"]]
         simpleppt.project_ppt(
-            ppts[i],
+            DT.ppts[i],
             toproject,
             ax=ax,
             plot_datapoints=False,
@@ -20,7 +23,7 @@ def fit_ppt(img, ppts, tdata, times=None, **kwargs):
             show=False,
         )
         i = i + 1
-    ax.imshow(img, origin="lower")
+    ax.imshow(DT.img, origin="lower")
     # ax.scatter(mouthpos["Position X"],mouthpos["Position Y"],zorder=2000,s=100,c="red")
     ax.axis("off")
     plt.tight_layout()
