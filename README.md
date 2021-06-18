@@ -21,25 +21,23 @@ Usage
 ```python
 import dyntrack as dt
 
-tdata, img = dt.ut.load_data("tracks.csv","background.tiff","Position X","Position Y","Parent","Time")
+DT = dt.ut.load_data("tracks.csv","background.tiff","Position X","Position Y","Parent","Time"
 
-X, Y, u, v = dt.tl.vector_field(tdata)
-dt.pl.vector_field(X, Y, u, v,img)
+dt.tl.vector_field(DT)
+dt.pl.vector_field(DT)
 
-ftle=dt.tl.FTLE(X, Y, u, v, 20000,5)
-dt.pl.FTLE(X,Y,u,v,ftle,img)
+dt.tl.FTLE(DT, 20000,5)
+dt.pl.FTLE(DT)
 
-ppts=dt.tl.fit_ppt(tdata,seed=1)
-dt.pl.fit_ppt(img,ppts,tdata)
+dt.tl.fit_ppt(DT,seed=1)
+dt.pl.fit_ppt(DT)
 ```
 
 
-If the function `tl.vector_field` is used, please cite the study that introduced the method for vector field generation:
+The function `tl.vector_field` uses [vfkm](https://github.com/nivan/vfkm/) to generate vector fields (see [license](https://github.com/LouisFaure/dyntrack/blob/main/vfkm/LICENSE)), please cite the related study if you use it:
 
 ```
 Ferreira, N., Klosowski, J. T., Scheidegger, C. & Silva, C. Vector Field k-Means: Clustering Trajectories by Fitting Multiple Vector Fields. Comput. Graph. Forum 32, 201–210 (2012).
 ```
-
-The license for the [redistributed code](https://github.com/nivan/vfkm/) can be found [here](https://github.com/LouisFaure/dyntrack/blob/main/vfkm/LICENSE)
 
 Code from `tl.FTLE` have been adapted and optimized from [Richard Galvez's notebook](https://github.com/richardagalvez/Vortices-Python/blob/master/Vortex-FTLE.ipynb)
