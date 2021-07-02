@@ -26,8 +26,9 @@ from datetime import datetime
 from pathlib import Path
 
 HERE = Path(__file__).parent
-sys.path.insert(0, f"{HERE.parent.parent}")
-sys.path.insert(0, os.path.abspath("_ext"))
+sys.path.insert(0, f"{HERE.parent}")
+
+import dyntrack
 
 
 # -- Project information -----------------------------------------------------
@@ -36,8 +37,6 @@ project = "dyntrack"
 author = "Louis Faure"
 copyright = f"{datetime.now():%Y}, {author}"
 
-
-import dyntrack
 
 version = dyntrack.__version__  #'0.1.3' #
 # The full version, including alpha/beta/rc tags.
@@ -56,7 +55,6 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.githubpages",
     "sphinx_autodoc_typehints",
-    "nbsphinx",
     # "edit_on_github",
 ]
 
