@@ -38,7 +38,7 @@ author = "Louis Faure"
 copyright = f"{datetime.now():%Y}, {author}"
 
 
-version = dyntrack.__version__  #'0.1.3' #
+version = "v1.0"  # dyntrack.__version__  #'0.1.3' #
 # The full version, including alpha/beta/rc tags.
 release = version
 
