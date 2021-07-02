@@ -7,6 +7,8 @@ def test_all():
 
     repr(DT)
 
+    dt.pl.tracks(DT)
+
     dt.tl.vector_field(DT)
     dt.pl.vector_field(DT)
     dt.tl.FTLE(DT, 20000, 5)
