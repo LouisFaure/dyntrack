@@ -24,7 +24,7 @@ class CustomBuild(build):
 setup(
     name="dyntrack",
     version_format="{tag}",
-    setup_requires=["setuptools-git-version"],
+    setup_requires=["setuptools-git-versioning"],
     description="Python package for the study of particle dynamics from 2D tracks",
     long_description=long_description,
     long_description_content_type="text/markdown",

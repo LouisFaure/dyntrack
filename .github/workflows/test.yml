@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd vfkm && g++ -O3 -Wall -o ../dyntrack/vfkm main.cpp Vector.cpp PolygonalPath.cpp Vector2D.cc Util.cpp Grid.cpp Optimizer.cpp ConstraintMatrix.cpp -I.
-        pip install coverage pytest wheel
+        pip install coverage pytest
         cd .. && pip install .
     - name: Test with pytest
       run: |
