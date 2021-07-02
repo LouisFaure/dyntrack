@@ -1,4 +1,5 @@
 [![PyPI](https://img.shields.io/pypi/v/dyntrack.svg)](https://pypi.python.org/pypi/dyntrack/)
+[![Documentation Status](https://readthedocs.org/projects/dyntrack/badge/?version=latest)](https://dyntrack.readthedocs.io/en/latest/?badge=latest)
 [![Build & Test](https://github.com/LouisFaure/dyntrack/actions/workflows/test.yml/badge.svg)](https://github.com/LouisFaure/dyntrack/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/LouisFaure/dyntrack/branch/main/graph/badge.svg)](https://codecov.io/gh/LouisFaure/dyntrack)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/LouisFaure/dyntrack/blob/master/LICENSE)
