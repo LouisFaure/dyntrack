@@ -5,10 +5,31 @@ import numpy as np
 
 
 class DynTrack:
+    """A python object containing the data used for dynamical tracks analysis.
+
+    Parameters
+    ----------
+    track_data
+        DataFrame containing x and z coordinates, the track ID and the frame/time.
+    img
+        The background image from the field where particle were tracked can be included.
+    X
+        x coordinates of the grid vector field.
+    Y
+        y coordinates of the grid vector field.
+    u
+        x component of the vectors.
+    v
+        y component of the vectors.
+    ftle
+        scalar FTLE values calculated from vector field.
+    ppts
+        list of principal trees fitted for each frame of the tracking."""
+
     def __init__(
         self,
         track_data: pd.DataFrame,
-        img: np.ndarray,
+        img: Optional[Union[np.ndarray, None]] = None,
         X: Optional[Union[np.ndarray, None]] = None,
         Y: Optional[Union[np.ndarray, None]] = None,
         u: Optional[Union[np.ndarray, None]] = None,
@@ -16,7 +37,6 @@ class DynTrack:
         ftle: Optional[Union[np.ndarray, None]] = None,
         ppts: Optional[Mapping[str, Any]] = None,
     ):
-
         self.track_data = track_data
         self.img = img
         self.X = X

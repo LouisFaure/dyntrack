@@ -21,7 +21,7 @@ Usage
 ```python
 import dyntrack as dt
 
-DT = dt.ut.load_data("tracks.csv","background.tiff","Position X","Position Y","Parent","Time"
+DT = dt.ut.load_data("tracks.csv","background.tiff","Position X","Position Y","Parent","Time")
 
 dt.tl.vector_field(DT)
 dt.pl.vector_field(DT)
@@ -33,6 +33,14 @@ dt.tl.fit_ppt(DT,seed=1)
 dt.pl.fit_ppt(DT)
 ```
 
+Workflow
+--------
+
+![worflow](./docs/workflow.png)
+
+
+Citations and used works
+------------------------
 
 The function `tl.vector_field` uses [vfkm](https://github.com/nivan/vfkm/) to generate vector fields (see [license](https://github.com/LouisFaure/dyntrack/blob/main/vfkm/LICENSE)), please cite the related study if you use it:
 

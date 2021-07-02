@@ -2,6 +2,7 @@ import numpy as np
 from .. import logging as logg
 from .. import settings
 from ..utils.FTLE import *
+from ..DynTrack import DynTrack
 
 
 def get_traj(X, Y, u, v, integration_time, dt, verbose=True):
@@ -104,7 +105,30 @@ def get_ftle(traj_x, traj_y, X, Y, integration_time):
     return ftle
 
 
-def FTLE(DT, integration_time, delta_t, copy=False):
+def FTLE(DT: DynTrack, integration_time: float, delta_t: float, copy: bool = False):
+    """\
+    Generate a scalar FTLE field from vector data.
+
+    Parameters
+    ----------
+    DT
+        A :class:`dyntrack.DynTrack` object.
+    integration_time
+        Overall integration time for sampling the vector field.
+    delta_t
+        Delta t used during the integration.
+    copy
+        Return a copy instead of writing to DT.
+
+    Returns
+    -------
+    DT : :class:`dyntrack.DynTrack`
+        if `copy=True` it returns or else add fields to `DT`:
+
+        `.ftle`
+            FTLE scalar values of the vector field.
+
+    """
 
     DT = DT.copy() if copy else DT
     logg.info("Obtaining FTLE scalar field", reset=True)
@@ -117,6 +141,6 @@ def FTLE(DT, integration_time, delta_t, copy=False):
     DT.ftle = ftle
 
     logg.info("    finished", time=True, end=" " if settings.verbosity > 2 else "\n")
-    logg.hint("added \n" "    .ftle, ftle scalar values for the vector field.")
+    logg.hint("added \n" "    .ftle, FTLE scalar values of the vector field.")
 
     return DT if copy else None

@@ -8,11 +8,43 @@ import tempfile
 import pandas as pd
 import numpy as np
 
-from dyntrack import settings
-from dyntrack import logging as logg
+from .. import settings
+from .. import logging as logg
+from ..DynTrack import DynTrack
 
 
-def vector_field(DT, gridRes: int = 30, smooth: float = 0.5, copy=False):
+def vector_field(
+    DT: DynTrack, gridRes: int = 30, smooth: float = 0.5, copy: float = False
+):
+    """\
+    Generate a grid vector field from track data.
+
+    Parameters
+    ----------
+    DT
+        A :class:`dyntrack.DynTrack` object.
+    gridRes
+        grid resolution in both horizontal and vertical axis.
+    smooth
+        Smooth parameter of the vfkm algorithm.
+    copy
+        Return a copy instead of writing to DT.
+
+    Returns
+    -------
+    DT : :class:`dyntrack.DynTrack`
+        if `copy=True` it returns or else add fields to `DT`:
+
+        `.X`
+            x coordinates of the grid.
+        `.Y`
+            y coordinates of the grid.
+        `.u`
+            x component of the vectors.
+        `.v`
+            y component of the vectors.
+
+    """
 
     DT = DT.copy() if copy else DT
 
