@@ -1,9 +1,41 @@
+from typing import Union, Sequence
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
 import numpy as np
 import simpleppt
+from ..DynTrack import DynTrack
 
 
-def fit_ppt(DT, times=None, figsize=(7, 4), ax=None, show=True, **kwargs):
+def fit_ppt(
+    DT: DynTrack,
+    times: Union[Sequence, None] = None,
+    figsize: tuple = (7, 4),
+    ax: Union[Axes, None] = None,
+    show: bool = True,
+):
+    """\
+    Plotting counterpart of `tl.fit_ppt`.
+
+    Display all principal trees to reveal structure in trajectories.
+
+    Parameters
+    ----------
+    DT
+        A :class:`dyntrack.DynTrack` object.
+    times
+        set of timepoints/frames to plot, by default uses all.
+    figsize
+        Figure size.
+    ax
+        A matplotlib axes object.
+    show
+        Show the plot, do not return axis.
+
+    Returns
+    -------
+    :class:`matplotlib.axes.Axes` if `show=True`
+
+    """
 
     if ax is None:
         fig = plt.figure(figsize=figsize)
@@ -27,7 +59,9 @@ def fit_ppt(DT, times=None, figsize=(7, 4), ax=None, show=True, **kwargs):
             show=False,
         )
         i = i + 1
-    ax.imshow(DT.img, origin="lower")
+
+    if DT.img is not None:
+        ax.imshow(DT.img, origin="lower")
     ax.axis("off")
 
     if show == False:
