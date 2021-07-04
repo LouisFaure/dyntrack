@@ -1,7 +1,7 @@
 |PyPI| |Build & Test| |codecov| |License| |Code style: black|
 
-Home
-====
+dyntrack - a python package for analysis of particle dynamics
+=============================================================
 
 Python package for the study of particle dynamics from 2D tracks
 
