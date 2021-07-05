@@ -38,7 +38,7 @@ author = "Louis Faure"
 copyright = f"{datetime.now():%Y}, {author}"
 
 
-version = "v1.0"  # dyntrack.__version__  #'0.1.3' #
+version = dyntrack.__version__  #'0.1.3' #
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -63,6 +63,9 @@ autoclass_content = "both"
 
 intersphinx_mapping = dict(
     matplotlib=("https://matplotlib.org/", None),
+    numpy=("https://docs.scipy.org/doc/numpy/", None),
+    pandas=("https://pandas.pydata.org/pandas-docs/stable/", None),
+    simpleppt=("https://simpleppt.readthedocs.io/en/latest/", None),
 )
 
 # Add any paths that contain templates here, relative to this directory.

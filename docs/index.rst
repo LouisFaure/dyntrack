@@ -19,7 +19,7 @@ Usage
 
     import dyntrack as dt
 
-    DT = dt.ut.load_data("tracks.csv","background.tiff","Position X","Position Y","Parent","Time")
+    DT = dt.ut.load_data("tracks.csv","Position X","Position Y","Parent","Time","background.tiff")
 
     dt.tl.vector_field(DT)
     dt.pl.vector_field(DT)
@@ -35,22 +35,6 @@ Workflow
 
 .. figure:: ./workflow.png
    :alt: worflow
-
-Citations and used works
-------------------------
-
-The function ``tl.vector_field`` uses
-`vfkm <https://github.com/nivan/vfkm/>`__ to generate vector fields (see
-`license <https://github.com/LouisFaure/dyntrack/blob/main/vfkm/LICENSE>`__),
-please cite the related study if you use it:
-
-::
-
-    Ferreira, N., Klosowski, J. T., Scheidegger, C. & Silva, C. Vector Field k-Means: Clustering Trajectories by Fitting Multiple Vector Fields. Comput. Graph. Forum 32, 201–210 (2012).
-
-Code from ``tl.FTLE`` have been adapted and optimized from `Richard
-Galvez's
-notebook <https://github.com/richardagalvez/Vortices-Python/blob/master/Vortex-FTLE.ipynb>`__
 
 .. |PyPI| image:: https://img.shields.io/pypi/v/dyntrack.svg
    :target: https://pypi.python.org/pypi/dyntrack/
@@ -70,3 +54,4 @@ notebook <https://github.com/richardagalvez/Vortices-Python/blob/master/Vortex-F
    :hidden:
 
    api
+   references
