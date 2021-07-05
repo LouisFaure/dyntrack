@@ -22,7 +22,7 @@ Usage
 ```python
 import dyntrack as dt
 
-DT = dt.ut.load_data("tracks.csv","background.tiff","Position X","Position Y","Parent","Time")
+DT = dt.ut.load_data("tracks.csv","Position X","Position Y","Parent","Time","background.tiff")
 
 dt.tl.vector_field(DT)
 dt.pl.vector_field(DT)
@@ -37,8 +37,7 @@ dt.pl.fit_ppt(DT)
 Workflow
 --------
 
-![worflow](./docs/workflow.png)
-
+![](https://github.com/LouisFaure/dyntrack/raw/main/docs/workflow.png)
 
 Citations and used works
 ------------------------
