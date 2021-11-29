@@ -3,6 +3,7 @@ import pathlib
 from setuptools import setup, find_packages
 import subprocess
 from os import path
+from setuptools.dist import Distribution
 
 this_directory = path.abspath(path.dirname(__file__))
 
@@ -21,6 +22,23 @@ class CustomBuild(build):
         subprocess.call(["make", "-C", "vfkm"])
 
 
+class BinaryDistribution(Distribution):
+    """Distribution which always forces a binary package with platform name"""
+
+    def has_ext_modules(foo):
+        return True
+
+
+from setuptools.command.install import install
+
+
+class InstallPlatlib(install):
+    def finalize_options(self):
+        install.finalize_options(self)
+        if self.distribution.has_ext_modules():
+            self.install_lib = self.install_platlib
+
+
 setup(
     name="dyntrack",
     version_config={
@@ -37,7 +55,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
-    cmdclass={
-        "build": CustomBuild,
-    },
+    cmdclass={"build": CustomBuild, "install": InstallPlatlib},
+    distclass=BinaryDistribution,
 )
