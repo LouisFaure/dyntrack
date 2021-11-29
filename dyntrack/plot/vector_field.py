@@ -15,7 +15,6 @@ def vector_field(
     arrowstyle="->",
     cmap="gnuplot",
     figsize: tuple = (7, 4),
-    ax: Union[Axes, None] = None,
     show: bool = True,
     **kwargs
 ):
@@ -40,10 +39,10 @@ def vector_field(
         Arrow color used by :func:`matplotlib.pyplot.streamplot`.
     figsize
         Figure size.
-    ax
-        A matplotlib axes object.
     show
         Show the plot, do not return axis.
+    save
+        Save plot to file
     **kwargs
         Arguments passed to :func:`matplotlib.pyplot.streamplot`.
 
@@ -53,40 +52,37 @@ def vector_field(
 
     """
 
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        if ax is None:
-            fig = plt.figure(figsize=figsize)
-            ax = fig.add_subplot(111)
-            fig.set_tight_layout(True)
+    fig, (ax, cax) = plt.subplots(
+        1, 2, gridspec_kw={"width_ratios": [96, 4], "wspace": 0}
+    )
+    ax.set_aspect("equal")
 
-        ax.set_aspect("equal")
-        if DT.img is not None:
-            ax.imshow(DT.img, origin="lower")
-        speed = np.sqrt(DT.u ** 2 + DT.v ** 2)
-        h = ax.streamplot(
-            DT.X,
-            DT.Y,
-            DT.u,
-            DT.v,
-            color=speed,
-            density=density,
-            linewidth=linewidth,
-            arrowsize=arrowsize,
-            arrowstyle=arrowstyle,
-            cmap=cmap,
-            **kwargs
-        )
-        ax.axis("off")
+    if DT.img is not None:
+        ax.imshow(DT.img, origin="lower")
+    speed = np.sqrt(DT.u ** 2 + DT.v ** 2)
+    h = ax.streamplot(
+        DT.X,
+        DT.Y,
+        DT.u,
+        DT.v,
+        color=speed,
+        density=density,
+        linewidth=linewidth,
+        arrowsize=arrowsize,
+        arrowstyle=arrowstyle,
+        cmap=cmap,
+        **kwargs
+    )
+    ax.axis("off")
 
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes("right", size="2%", pad=1)
-        cbar = plt.colorbar(h.lines, ax=cax, ticks=[speed.min(), speed.max()])
-        cbar.ax.set_yticklabels(["low", "high"])
-        cbar.set_label("particle speed", fontsize=12)
-        cax.axis("off")
+    cbar = plt.colorbar(
+        h.lines, ax=cax, ticks=[speed.min(), speed.max()], pad=0, fraction=1
+    )
+    cbar.ax.set_yticklabels(["low", "high"])
+    cbar.set_label("particle speed", fontsize=12)
+    cax.axis("off")
 
-        if show == False:
-            return ax
-        else:
-            plt.show()
+    if show == False:
+        return (ax, cax)
+    else:
+        plt.show()

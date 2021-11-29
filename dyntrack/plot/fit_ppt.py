@@ -26,8 +26,6 @@ def fit_ppt(
         set of timepoints/frames to plot, by default uses all.
     figsize
         Figure size.
-    ax
-        A matplotlib axes object.
     show
         Show the plot, do not return axis.
 
@@ -37,10 +35,9 @@ def fit_ppt(
 
     """
 
-    if ax is None:
-        fig = plt.figure(figsize=figsize)
-        ax = fig.add_subplot(111)
-        fig.set_tight_layout(True)
+    fig = plt.figure(figsize=figsize)
+    ax = fig.add_subplot(111)
+    fig.set_tight_layout(True)
 
     tdata = DT.track_data
 
