@@ -64,7 +64,7 @@ def fit_ppt(
             ppts = ppts + [
                 simpleppt.ppt(
                     tofit,
-                    tofit.shape[0],
+                    Nodes=tofit.shape[0],
                     lam=lam,
                     sigma=sigma,
                     progress=False,

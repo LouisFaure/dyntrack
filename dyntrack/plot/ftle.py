@@ -15,7 +15,6 @@ def FTLE(
     arrowstyle: str = "->",
     color="white",
     figsize=(7, 4),
-    ax: Union[Axes, None] = None,
     show: bool = True,
     kwargs_for_countourf={},
     kwargs_for_streamplot={},
@@ -41,8 +40,6 @@ def FTLE(
         Arrow color used by :func:`matplotlib.pyplot.streamplot`.
     figsize
         Figure size.
-    ax
-        A matplotlib axes object.
     show
         Show the plot, do not return axis.
     **kwargs_for_contourf
@@ -56,12 +53,11 @@ def FTLE(
 
     """
 
-    if ax is None:
-        fig = plt.figure(figsize=figsize)
-        ax = fig.add_subplot(111)
-        fig.set_tight_layout(True)
-
+    fig, (ax, cax) = plt.subplots(
+        1, 2, gridspec_kw={"width_ratios": [96, 4], "wspace": 0}
+    )
     ax.set_aspect("equal")
+
     contf = ax.contourf(
         DT.X, DT.Y, DT.ftle, extend="both", cmap=cmap, **kwargs_for_countourf
     )
@@ -80,14 +76,12 @@ def FTLE(
     ax.yaxis.set_major_locator(plt.NullLocator())
     ax.xaxis.set_major_formatter(plt.NullFormatter())
     ax.axis("off")
-    divider = make_axes_locatable(ax)
-    cax = divider.append_axes("right", size="2%", pad=0.1)
-    cbar = plt.colorbar(contf, cax=cax)
+
+    cbar = plt.colorbar(contf, ax=cax, pad=0, fraction=1)
     cbar.set_label("$FTLE$", fontsize=12)
-    ax.set_xticks([])
-    ax.set_yticks([])
+    cax.axis("off")
 
     if show == False:
-        return ax
+        return (ax, cax)
     else:
         plt.show()
