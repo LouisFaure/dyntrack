@@ -43,8 +43,8 @@ setup(
     name="dyntrack",
     version_config={
         "template": "{tag}",
-        "dev_template": "{tag}",
-        "dirty_template": "{tag}",
+        "dev_template": "{tag}.post{ccount}+git.{sha}",
+        "dirty_template": "{tag}.post{ccount}+git.{sha}.dirty",
     },
     setup_requires=["setuptools-git-versioning"],
     description="Python package for the study of particle dynamics from 2D tracks",
