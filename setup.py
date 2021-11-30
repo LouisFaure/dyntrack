@@ -5,12 +5,12 @@ import subprocess
 from os import path
 from setuptools.dist import Distribution
 
-this_directory = path.abspath(path.dirname(__file__))
+dir = path.abspath(path.dirname(__file__))
 
 with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
-with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
+with open(path.join(dir, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 from distutils.command.build import build
@@ -40,7 +40,7 @@ class InstallPlatlib(install):
 
 
 def set_version():
-    head = open(path.join(this_directory, ".git", "HEAD")).readline()
+    head = open(path.join(dir, ".git", "HEAD")).readline()
     if head.find("dev") != -1:
         return {
             "template": "{tag}.dev{ccount}",
