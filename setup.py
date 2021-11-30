@@ -43,9 +43,9 @@ def set_version():
     head = open(path.join(this_directory, ".git", "HEAD")).readline()
     if head.find("dev") != -1:
         return {
-            "template": "{branch}.{sha}",
-            "dev_template": "{branch}.{sha}",
-            "dirty_template": "{branch}.{sha}",
+            "template": "{tag}.{sha}",
+            "dev_template": "{tag}.{sha}",
+            "dirty_template": "{tag}.{sha}",
         }
     elif head.find("main") != -1:
         return {"template": "{tag}", "dev_template": "{tag}", "dirty_template": "{tag}"}
