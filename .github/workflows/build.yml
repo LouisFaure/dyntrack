@@ -14,6 +14,10 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
+        include:
+          - os: windows-latest
+            c-compiler: "gcc"
+            cxx-compiler: "g++"
     steps:
       - uses: actions/checkout@v2
         with:
