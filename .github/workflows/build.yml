@@ -30,7 +30,8 @@ jobs:
         with:
           msystem: MINGW32
         if: matrix.os == 'windows-latest'
-      - shell: msys2 {0}
+
+      - name: Check gcc
         run: where g++
         if: matrix.os == 'windows-latest'
 
