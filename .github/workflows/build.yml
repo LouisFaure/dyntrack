@@ -21,6 +21,7 @@ jobs:
 
       - name: Check gcc
         run: where g++
+        shell: cmd
 
       - name: Build wheel
         run: g++
