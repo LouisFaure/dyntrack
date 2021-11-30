@@ -1,7 +1,9 @@
 name: Build Wheels
 
 on:
-  push
+  push:
+    tags: ['v*']
+    branches: ['*dev']
 
 jobs:
   build_winmac:
