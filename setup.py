@@ -39,13 +39,21 @@ class InstallPlatlib(install):
             self.install_lib = self.install_platlib
 
 
+def set_version():
+    head = open(path.join(this_directory, ".git", "HEAD")).readline()
+    if head.find("dev") != -1:
+        return {
+            "template": "{branch}.{sha}",
+            "dev_template": "{branch}.{sha}",
+            "dirty_template": "{branch}.{sha}",
+        }
+    elif head.find("main") != -1:
+        return {"template": "{tag}", "dev_template": "{tag}", "dirty_template": "{tag}"}
+
+
 setup(
     name="dyntrack",
-    version_config={
-        "template": "{tag}",
-        "dev_template": "{tag}",
-        "dirty_template": "{tag}",
-    },
+    version_config=set_version(),
     setup_requires=["setuptools-git-versioning"],
     description="Python package for the study of particle dynamics from 2D tracks",
     long_description=long_description,
