@@ -1,9 +1,9 @@
+from setuptools.command.build_ext import build_ext
 import os
 import pathlib
 from setuptools import setup, find_packages
 import subprocess
 from os import path
-from setuptools.dist import Distribution
 
 dir = path.abspath(path.dirname(__file__))
 
@@ -16,27 +16,16 @@ with open(path.join(dir, "README.md"), encoding="utf-8") as f:
 from distutils.command.build import build
 
 
-class CustomBuild(build):
-    def run(self):
-        build.run(self)
-        subprocess.call(["make", "-C", "vfkm"])
-
-
-class BinaryDistribution(Distribution):
-    """Distribution which always forces a binary package with platform name"""
-
-    def has_ext_modules(foo):
-        return True
-
-
-from setuptools.command.install import install
-
-
-class InstallPlatlib(install):
-    def finalize_options(self):
-        install.finalize_options(self)
-        if self.distribution.has_ext_modules():
-            self.install_lib = self.install_platlib
+class custom_build_ext(build_ext):
+    def build_extensions(self):
+        # Override the compiler executables. Importantly, this
+        # removes the "default" compiler flags that would
+        # otherwise get passed on to to the compiler, i.e.,
+        # distutils.sysconfig.get_var("CFLAGS").
+        self.compiler.set_executable("compiler_so", "g++ -O -Wall")
+        self.compiler.set_executable("compiler_cxx", "g++ -O -Wall")
+        self.compiler.set_executable("linker_so", "g++")
+        build_ext.build_extensions(self)
 
 
 def set_version():
@@ -51,6 +40,23 @@ def set_version():
         return {"template": "{tag}", "dev_template": "{tag}", "dirty_template": "{tag}"}
 
 
+from distutils.core import Extension
+
+module1 = Extension(
+    "dyntrack.vfkm",
+    sources=[
+        "vfkm/main.cpp",
+        "vfkm/Vector.cpp",
+        "vfkm/PolygonalPath.cpp",
+        "vfkm/Vector2D.cc",
+        "vfkm/Util.cpp",
+        "vfkm/Grid.cpp",
+        "vfkm/Optimizer.cpp",
+        "vfkm/ConstraintMatrix.cpp",
+    ],
+    include_dirs=["vfkm/"],
+)
+
 setup(
     name="dyntrack",
     version_config=set_version(),
@@ -63,6 +69,6 @@ setup(
     packages=find_packages(),
     include_package_data=False,
     install_requires=requirements,
-    cmdclass={"build": CustomBuild, "install": InstallPlatlib},
-    distclass=BinaryDistribution,
+    ext_modules=[module1],
+    cmdclass={"build_ext": custom_build_ext},
 )
