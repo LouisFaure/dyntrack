@@ -14,10 +14,6 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
-        include:
-          - os: windows-latest
-            c-compiler: "gcc"
-            cxx-compiler: "g++"
     steps:
       - uses: actions/checkout@v2
         with:
@@ -32,6 +28,9 @@ jobs:
           python -m pip install wheel
 
       - name: Build wheel
+        env:
+          CC: gcc
+          CXX: g++
         run: python setup.py bdist_wheel
 
       - uses: actions/upload-artifact@v2
