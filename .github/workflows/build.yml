@@ -24,4 +24,4 @@ jobs:
         shell: cmd
 
       - name: Build wheel
-        run: g++
+        run: python setup.py build -c mingw32
