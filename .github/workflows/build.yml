@@ -30,6 +30,10 @@ jobs:
         uses: egor-tensin/setup-mingw@v2
         if: matrix.os == 'windows-latest'
 
+      - name: Build windows
+        run: python setup.py build --compiler=mingw32
+        if: matrix.os == 'windows-latest'
+
       - name: Build wheel
         env:
           CC: gcc
