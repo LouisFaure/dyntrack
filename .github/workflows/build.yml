@@ -49,7 +49,7 @@ jobs:
           python-versions: 'cp36-cp36m cp37-cp37m'
 
       - name: remove linux wheels
-        run: rm -r dist/*linux*
+        run: sudo rm -r dist/*linux_x86_64*
 
       - uses: actions/upload-artifact@v2
         with:
