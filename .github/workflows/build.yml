@@ -19,9 +19,24 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Check gcc
-        run: where g++
-        shell: cmd
+      - name: Edit file
+        run: |
+          $FileName = "C:\hostedtoolcache\windows\Python\3.8.10\x64\lib\distutils\cygwinccompiler.py"
+          $Pattern = "msvcr100"
+          [System.Collections.ArrayList]$file = Get-Content $FileName
+          $insert = @()
+
+          for ($i=0; $i -lt $file.count; $i++) {
+            if ($file[$i] -match $pattern) {
+              $insert += $i+1 #Record the position of the line before this one
+            }
+          }
+
+          #Now loop the recorded array positions and insert the new text
+          $insert | Sort-Object -Descending | ForEach-Object { $file.insert($_,"        elif msc_ver == '1928':
+                     return ['vcruntime140']") }
+
+          Set-Content $FileName $file
 
       - name: Build wheel
         run: python setup.py build -c mingw32
