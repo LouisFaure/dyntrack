@@ -61,7 +61,7 @@ setup(
     package_dir={"dyntrack": "dyntrack"},
     url="https://github.com/LouisFaure/DynTrack",
     packages=find_packages(),
-    include_package_data=False,
+    include_package_data=True,
     install_requires=requirements,
     cmdclass={"build": CustomBuild, "install": InstallPlatlib},
     distclass=BinaryDistribution,
