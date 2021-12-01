@@ -5,12 +5,6 @@ dyntrack - a python package for analysis of particle dynamics
 
 Python package for the study of particle dynamics from 2D tracks
 
-Installation
-------------
-
-.. code:: bash
-
-    pip install -U dyntrack
 
 Usage
 -----
@@ -53,5 +47,6 @@ Workflow
    :maxdepth: 0
    :hidden:
 
+   installation
    api
    references

@@ -39,6 +39,16 @@ Workflow
 
 ![](https://github.com/LouisFaure/dyntrack/raw/main/docs/workflow.png)
 
+
+Source build and run issues with windows
+----------------------------------------
+
+If missing DLL errors occurs while running, or gcc is not available while building from source please install MinGW-w64:
+
+```powershell
+choco install mingw
+```
+
 Citations and used works
 ------------------------
 
