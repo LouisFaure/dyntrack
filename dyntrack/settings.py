@@ -2,7 +2,7 @@ from . import __path__
 import os
 from glob import glob
 
-vfkm = glob(os.path.join(__path__[0], "vfkm*"))[0]
+vfkm = os.path.join(__path__[0], "vfkm")
 
 """Settings
 """
