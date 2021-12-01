@@ -1,2 +1,3 @@
 include vfkm/*
 include requirements.txt
+include .git/*
