@@ -1,3 +1,4 @@
+from typing import Union
 from glob import glob
 import sys
 import os
@@ -7,6 +8,9 @@ import tempfile
 
 import pandas as pd
 import numpy as np
+
+import math
+from scipy.stats import ranksums
 
 from .. import settings
 from .. import logging as logg
@@ -135,3 +139,126 @@ def vector_field(
     )
 
     return DT if copy else None
+
+
+import numba
+
+
+@numba.stencil
+def _local_var(x):
+    mean = (
+        x[-1, -1]
+        + x[-1, 0]
+        + x[-1, 1]
+        + x[0, -1]
+        + x[0, 0]
+        + x[0, 1]
+        + x[1, -1]
+        + x[1, 0]
+        + x[1, 1]
+    ) // 9
+    return np.sqrt(
+        (
+            (x[-1, -1] - mean) ** 2
+            + (x[-1, 0] - mean) ** 2
+            + (x[-1, 1] - mean) ** 2
+            + (x[0, -1] - mean) ** 2
+            + (x[0, 0] - mean) ** 2
+            + (x[0, 1] - mean) ** 2
+            + (x[1, -1] - mean) ** 2
+            + (x[1, 0] - mean) ** 2
+            + (x[1, 1] - mean) ** 2
+        )
+        // 9
+    )
+
+
+@numba.njit
+def local_var(x):
+    return _local_var(x)
+
+
+def compute_angle(uv):
+    base = [0, 1]
+    unit_vector_1 = base / np.linalg.norm(base)
+    unit_vector_2 = uv / np.linalg.norm(uv)
+    dot_product = np.dot(unit_vector_1, unit_vector_2)
+    angle = np.arccos(dot_product)
+    return math.degrees(angle)
+
+
+def coordination_test(
+    DT: DynTrack,
+    return_stats: bool = False,
+    return_data: bool = False,
+    seed: Union[bool, int] = None,
+):
+
+    """\
+    Generate a grid vector field from track data.
+
+    Parameters
+    ----------
+    DT
+        A :class:`dyntrack.DynTrack` object.
+    gridRes
+        grid resolution in both horizontal and vertical axis.
+    smooth
+        Smooth parameter of the vfkm algorithm.
+    copy
+        Return a copy instead of writing to DT.
+
+    Returns
+    -------
+    DT : :class:`dyntrack.DynTrack`
+        if `copy=True` it returns or else add fields to `DT`:
+
+        `.X`
+            x coordinates of the grid.
+        `.Y`
+            y coordinates of the grid.
+        `.u`
+            x component of the vectors.
+        `.v`
+            y component of the vectors.
+
+    """
+
+    logg.info("Testing coordination of the vector field", reset=True)
+
+    n_vals = len(DT.u.ravel())
+    angles_obs = np.array(
+        [compute_angle([DT.u.ravel()[i], DT.v.ravel()[i]]) for i in range(n_vals)]
+    ).reshape(DT.X.shape)
+
+    logg.info("    Local variance on observed angles", end="... ")
+    var_obs = local_var(angles_obs)
+    logg.info("done")
+
+    if seed is not None:
+        np.random.seed(seed)
+    u = np.random.normal(scale=np.std(DT.u.ravel()), size=n_vals)
+    v = np.random.normal(scale=np.std(DT.v.ravel()), size=n_vals)
+
+    angles_rand = np.array(
+        [compute_angle([u.ravel()[i], v.ravel()[i]]) for i in range(n_vals)]
+    ).reshape(DT.X.shape)
+
+    logg.info("    Local variance on randomly generated angles", end="... ")
+    var_rand = local_var(angles_rand)
+    logg.info("done")
+
+    ret = ()
+
+    stat, pval = ranksums(var_rand.ravel(), var_obs.ravel(), "greater")
+
+    logg.info("    finished", time=True, end=" " if settings.verbosity > 2 else "\n")
+    logg.info(f"Wilcoxon rank sum test results:\n    stat: {stat}\n    pval: {pval}")
+
+    if return_stats:
+        ret = (*ret, stat, pval)
+    if return_data:
+        ret = (*ret, angle_obs, angles_rand, var_obs, var_rand)
+
+    if len(ret) > 0:
+        return ret
