@@ -61,10 +61,10 @@ def vector_field(
         ax.imshow(DT.img, origin="lower")
     speed = np.sqrt(DT.u ** 2 + DT.v ** 2)
     h = ax.streamplot(
-        DT.X,
-        DT.Y,
-        DT.u,
-        DT.v,
+        DT.X * DT.pixel_scaling,
+        DT.Y * DT.pixel_scaling,
+        DT.u * DT.pixel_scaling,
+        DT.v * DT.pixel_scaling,
         color=speed,
         density=density,
         linewidth=linewidth,

@@ -14,6 +14,7 @@ def load_data(
     parent_col: str,
     time_col: str,
     img: Optional[Union[np.ndarray, str]] = None,
+    pixel_scaling: float = 1,
 ):
     """\
     Load data required for dynamical tracks analysis.
@@ -32,6 +33,8 @@ def load_data(
         Name of the time/frame ID column.
     img
         Path of an img file, or a :class:`numpy.ndarray`.
+    pixel_scaling
+        Pixel scaling linking the values of the measurements to the pixles of the image.
 
     Returns
     -------
@@ -44,7 +47,7 @@ def load_data(
     tdata.columns = ["Position X", "Position Y", "Parent", "Time"]
     img = mpimg.imread(img) if type(img) is str else img
 
-    return DynTrack(tdata, img)
+    return DynTrack(tdata, img, pixel_scaling)
 
 
 def load_example():

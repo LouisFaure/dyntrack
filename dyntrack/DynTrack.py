@@ -29,16 +29,18 @@ class DynTrack:
     def __init__(
         self,
         track_data: pd.DataFrame,
-        img: Optional[Union[np.ndarray, None]] = None,
-        X: Optional[Union[np.ndarray, None]] = None,
-        Y: Optional[Union[np.ndarray, None]] = None,
-        u: Optional[Union[np.ndarray, None]] = None,
-        v: Optional[Union[np.ndarray, None]] = None,
+        img: Optional[np.ndarray] = None,
+        pixel_scaling: float = 1,
+        X: Optional[np.ndarray] = None,
+        Y: Optional[np.ndarray] = None,
+        u: Optional[np.ndarray] = None,
+        v: Optional[np.ndarray] = None,
         ftle: Optional[Union[np.ndarray, None]] = None,
         ppts: Optional[Mapping[str, Any]] = None,
     ):
         self.track_data = track_data
         self.img = img
+        self.pixel_scaling = pixel_scaling
         self.X = X
         self.Y = Y
         self.u = u
@@ -52,11 +54,13 @@ class DynTrack:
 
         descr = f"DynTrack object with the following data:"
         descr += f"\n    track_data ({tr} tracks, {dp} datapoints)"
-        for attr in ["img", "X", "Y", "u", "v", "ftle", "ppts"]:
+        for attr in ["img", "pixel_scaling", "X", "Y", "u", "v", "ftle", "ppts"]:
             dt = getattr(self, attr)
-            if (dt is not None) & (attr != "ppts"):
+            if (dt is not None) & (attr == "pixel_scaling"):
+                descr += f"\n    {attr} {dt}"
+            elif (dt is not None) & (attr != "ppts"):
                 descr += f"\n    {attr} {dt.shape}"
-            if (dt is not None) & (attr == "ppts"):
+            elif (dt is not None) & (attr == "ppts"):
                 descr += f"\n    {attr} ({len(dt)} ppt)"
 
         return descr
