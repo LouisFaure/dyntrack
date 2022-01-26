@@ -17,7 +17,7 @@ def test_all():
     dt.tl.fit_ppt(DT, times=range(200, 220), seed=1)
     dt.pl.fit_ppt(DT, times=range(200, 220))
 
-    assert np.isclose(stat, 23.929450093506397, rtol=1e-2)
+    assert np.isclose(stat, 23.805830556409365, rtol=1e-2)
 
     assert np.allclose(
         DT.X[0, :5],

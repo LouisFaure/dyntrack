@@ -8,7 +8,7 @@ import tempfile
 
 import pandas as pd
 import numpy as np
-
+import sys
 import math
 from scipy.stats import ranksums
 
@@ -50,26 +50,19 @@ def vector_field(
 
     """
 
+    vfkm = settings.vfkm
+    if not os.path.exists(vfkm):
+        raise Exception(
+            "vfkm binary not detected, check dyntrack installation!\n" "path: %s" % vfkm
+        )
+
     DT = DT.copy() if copy else DT
 
     tdata = DT.track_data
 
     allparents = np.unique(tdata["Parent"])
     allparents = allparents[~np.isnan(allparents)]
-    ldata = list(
-        map(
-            lambda x: tdata[["Position X", "Position Y", "Time"]].loc[
-                tdata.index[
-                    tdata["Parent"].isin(
-                        [x],
-                    )
-                ]
-            ],
-            [par for par in allparents],
-        )
-    )
-
-    vfkm = settings.vfkm
+    ldata = [group.iloc[:, [0, 1, 3]] for _, group in tdata.groupby("Parent")]
 
     logg.info(
         f"Generating grid vector field with a {gridRes}x{gridRes} grid and a smoothing constrain of {smooth}",
@@ -78,10 +71,10 @@ def vector_field(
     with tempfile.TemporaryDirectory() as tmp:
         # logg.hint("    Data temporary saved in "+tmp)
         init = [
-            min(tdata["Position X"]),
-            max(tdata["Position X"]),
-            min(tdata["Position Y"]),
-            max(tdata["Position Y"]),
+            np.floor(tdata["Position X"].min()),
+            np.ceil(tdata["Position X"].max()),
+            np.floor(tdata["Position Y"].min()),
+            np.ceil(tdata["Position Y"].max()),
             1,
             max(tdata["Time"]),
         ]
@@ -93,20 +86,16 @@ def vector_field(
                 tmp + "/tracks", header=False, sep=" ", mode="a", index=False
             )
 
-        proc = subprocess.Popen(
-            vfkm
-            + " "
-            + tmp
-            + "/tracks "
-            + str(gridRes)
-            + " 1 "
-            + str(smooth)
-            + " "
-            + tmp,
-            stdout=subprocess.PIPE,
-            shell=True,
+        command = [vfkm, tmp + "/tracks", str(gridRes), "1", str(smooth), tmp]
+
+        result = subprocess.run(
+            command, check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
-        (out, err) = proc.communicate()
+
+        if result.returncode != 0:
+            print(result.stdout.decode("utf-8"), file=sys.stdout, end="")
+            print(result.stderr.decode("utf-8"), file=sys.stderr, end="")
+            raise subprocess.CalledProcessError(1, cmd=command, stderr=result.stderr)
 
         files_c = [f for f in glob(tmp + "/*curves_r_*", recursive=True)]
         files_v = [f for f in glob(tmp + "/*vf_r_*", recursive=True)]
@@ -189,76 +178,95 @@ def compute_angle(uv):
 
 def coordination_test(
     DT: DynTrack,
+    DT_B: Union[None, DynTrack] = None,
+    alternative: Union[str, None] = None,
     return_stats: bool = False,
     return_data: bool = False,
     seed: Union[bool, int] = None,
 ):
 
     """\
-    Generate a grid vector field from track data.
+    Perform a coordination test on the data.
 
     Parameters
     ----------
     DT
         A :class:`dyntrack.DynTrack` object.
-    gridRes
-        grid resolution in both horizontal and vertical axis.
-    smooth
-        Smooth parameter of the vfkm algorithm.
+    DT_B
+        Another :class:`dyntrack.DynTrack` object to compare with.
+        If not specified, the comparison will be done with a random vector field.
+    alternative
+        if None, will set to `greater` if comparing to randomized vectors, to `two-sided` if not.
+    return_stats
+        Return statistics.
+    return_data
+        Return data use for the statistics.
     copy
         Return a copy instead of writing to DT.
 
     Returns
     -------
-    DT : :class:`dyntrack.DynTrack`
-        if `copy=True` it returns or else add fields to `DT`:
-
-        `.X`
-            x coordinates of the grid.
-        `.Y`
-            y coordinates of the grid.
-        `.u`
-            x component of the vectors.
-        `.v`
-            y component of the vectors.
+    tuple of results and/or data depedning on parameters: `return_stats` & `return_data`
 
     """
-
-    logg.info("Testing coordination of the vector field", reset=True)
+    if alternative is None:
+        alternative = "greater" if DT_B is None else "two-sided"
+    logg.info("Testing coordination of the vector field (%s)" % alternative, reset=True)
 
     n_vals = len(DT.u.ravel())
-    angles_obs = np.array(
+    angles_A = np.array(
         [compute_angle([DT.u.ravel()[i], DT.v.ravel()[i]]) for i in range(n_vals)]
     ).reshape(DT.X.shape)
 
     logg.info("    Local variance on observed angles", end="... ")
-    var_obs = local_var(angles_obs)
+    var_A = local_var(angles_A)
     logg.info("done")
 
-    if seed is not None:
-        np.random.seed(seed)
-    u = np.random.normal(scale=np.std(DT.u.ravel()), size=n_vals)
-    v = np.random.normal(scale=np.std(DT.v.ravel()), size=n_vals)
+    if DT_B is None:
+        logg.info("    Local variance on randomly generated angles", end="... ")
+        if seed is not None:
+            np.random.seed(seed)
+        u = np.random.normal(scale=np.std(DT.u.ravel()), size=n_vals)
+        v = np.random.normal(scale=np.std(DT.v.ravel()), size=n_vals)
+    else:
+        logg.info("    Local variance on second observations angles", end="... ")
+        u, v = DT_B.u, DT_B.v
 
-    angles_rand = np.array(
+    angles_B = np.array(
         [compute_angle([u.ravel()[i], v.ravel()[i]]) for i in range(n_vals)]
     ).reshape(DT.X.shape)
 
-    logg.info("    Local variance on randomly generated angles", end="... ")
-    var_rand = local_var(angles_rand)
+    var_B = local_var(angles_B)
     logg.info("done")
 
-    ret = ()
+    var_A[0, :] = np.nan
+    var_A[:, 0] = np.nan
+    var_A[var_A.shape[0] - 1, :] = np.nan
+    var_A[:, var_A.shape[1] - 1] = np.nan
 
-    stat, pval = ranksums(var_rand.ravel(), var_obs.ravel(), "greater")
+    var_B[0, :] = np.nan
+    var_B[:, 0] = np.nan
+    var_B[var_B.shape[0] - 1, :] = np.nan
+    var_B[:, var_B.shape[1] - 1] = np.nan
+
+    stat, pval = ranksums(var_B.ravel(), var_A.ravel(), alternative)
 
     logg.info("    finished", time=True, end=" " if settings.verbosity > 2 else "\n")
     logg.info(f"Wilcoxon rank sum test results:\n    stat: {stat}\n    pval: {pval}")
 
+    ret = ()
     if return_stats:
         ret = (*ret, stat, pval)
     if return_data:
-        ret = (*ret, angle_obs, angles_rand, var_obs, var_rand)
+        ret = (
+            *ret,
+            angles_A,
+            angles_B,
+            var_A,
+            var_B,
+            u.reshape(DT.u.shape),
+            v.reshape(DT.v.shape),
+        )
 
     if len(ret) > 0:
         return ret
