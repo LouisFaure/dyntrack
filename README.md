@@ -3,6 +3,7 @@
 [![Documentation Status](https://readthedocs.org/projects/dyntrack/badge/?version=latest)](https://dyntrack.readthedocs.io/en/latest/?badge=latest)
 [![Build & Test](https://github.com/LouisFaure/dyntrack/actions/workflows/test.yml/badge.svg)](https://github.com/LouisFaure/dyntrack/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/LouisFaure/dyntrack/branch/main/graph/badge.svg)](https://codecov.io/gh/LouisFaure/dyntrack)
+[![DOI](https://img.shields.io/badge/DOI-10.1016/j.cub.2022.04.054-blue)](https://doi.org/10.1016/j.cub.2022.04.054)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/LouisFaure/dyntrack/blob/master/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
