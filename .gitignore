@@ -1,3 +1,7 @@
 .ipynb_checkpoints
 __pycache__
 *.pyc
+build/
+dist/
+dyntrack.egg-info/
+.eggs/

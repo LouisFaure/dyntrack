@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dyntrack"
+description = "Python package for the study of particle dynamics from 2D tracks"
+readme = "README.md"
+requires-python = ">=3.9"
+dynamic = ["version"]
+dependencies = [
+    "tqdm>=4.45.0",
+    "numpy>=1.18.1",
+    "numba>=0.51.2",
+    "pandas>=1.1.1",
+    "matplotlib>=3.2.2",
+    "simpleppt>=1.1"
+]
+
+[tool.setuptools]
+packages = {find = {}}
+package-dir = {"dyntrack" = "dyntrack"}
+include-package-data = true
+
+[tool.setuptools_scm]
