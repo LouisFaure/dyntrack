@@ -1,15 +1,18 @@
 from setuptools import setup
-from setuptools.command.build_ext import build_ext
+from setuptools.command.install import install
 import subprocess
+import os
+import shutil
 
-class VfkmBuildExt(build_ext):
+class CustomInstall(install):
     def run(self):
+        # Create build directories if they don't exist        
         # Run make command in vfkm directory
         subprocess.check_call(['make', '-C', 'vfkm'])
         super().run()
 
 setup(
     cmdclass={
-        'build_ext': VfkmBuildExt,
+        'install': CustomInstall,
     }
 )
